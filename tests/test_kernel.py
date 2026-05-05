@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import json
+import sqlite3
+
 import pytest
 
 from observable_agent_workflow_memory.core.errors import FailClosedError
@@ -108,6 +111,71 @@ def test_verify_receipt_detects_digest_tampering(tmp_path) -> None:  # type: ign
     result = kernel.verify_receipt(tampered.receipt_id)
     assert result.passed is False
     assert "receipt_digest mismatch" in result.reason
+
+
+def test_strict_receipt_audit_passes_for_valid_receipt(tmp_path) -> None:  # type: ignore[no-untyped-def]
+    kernel = AgentKernel.open(tmp_path)
+    kernel.observe("note", {"text": "strict audit evidence"}, run_id="demo")
+    candidate = kernel.propose_memory("demo")
+    receipt = kernel.verify(candidate.memory_id)
+
+    rows = kernel.audit_receipts(strict_recheck=True)
+
+    row = next(item for item in rows if item["receipt_id"] == receipt.receipt_id)
+    assert row["receipt_integrity"] is True
+    assert row["checker_recheck"] is True
+    assert row["verified"] is True
+
+
+def test_strict_receipt_audit_fails_on_manifest_tampering(tmp_path) -> None:  # type: ignore[no-untyped-def]
+    kernel = AgentKernel.open(tmp_path)
+    kernel.observe("note", {"text": "manifest audit evidence"}, run_id="demo")
+    candidate = kernel.propose_memory("demo")
+    receipt = kernel.verify(candidate.memory_id)
+    manifest_id = next(ref for ref in receipt.evidence_refs if ref.startswith("evm_"))
+    manifest = kernel.storage.get_evidence_manifest(manifest_id)
+    tampered = manifest.model_copy(update={"replay_digest": "tampered"})
+    kernel.storage.create_evidence_manifest(tampered)
+
+    row = next(
+        item
+        for item in kernel.audit_receipts(strict_recheck=True)
+        if item["receipt_id"] == receipt.receipt_id
+    )
+
+    assert row["receipt_integrity"] is True
+    assert row["checker_recheck"] is False
+    assert row["verified"] is False
+    assert "replay_digest" in row["reason"]
+
+
+def test_strict_receipt_audit_fails_on_event_digest_tampering(tmp_path) -> None:  # type: ignore[no-untyped-def]
+    kernel = AgentKernel.open(tmp_path)
+    event = kernel.observe("note", {"text": "event audit evidence"}, run_id="demo")
+    candidate = kernel.propose_memory("demo")
+    receipt = kernel.verify(candidate.memory_id)
+    db_path = tmp_path / "oawm.sqlite"
+    with sqlite3.connect(db_path) as con:
+        raw_json = con.execute(
+            "SELECT raw_json FROM events WHERE event_id = ?",
+            (event.event_id,),
+        ).fetchone()[0]
+        raw = json.loads(str(raw_json))
+        raw["payload_digest"] = "tampered"
+        con.execute(
+            "UPDATE events SET raw_json = ? WHERE event_id = ?",
+            (json.dumps(raw, sort_keys=True), event.event_id),
+        )
+
+    row = next(
+        item
+        for item in kernel.audit_receipts(strict_recheck=True)
+        if item["receipt_id"] == receipt.receipt_id
+    )
+
+    assert row["checker_recheck"] is False
+    assert row["verified"] is False
+    assert "InputSet" in row["reason"] or "digest" in row["reason"]
 
 
 def test_action_intent_resource_caps_mismatch_fails_closed(tmp_path) -> None:  # type: ignore[no-untyped-def]

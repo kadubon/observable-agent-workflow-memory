@@ -16,3 +16,10 @@ Threats considered in v0.1:
 This library does not claim model truthfulness. It records observable evidence
 and deterministic checker outcomes.
 
+Certified memory means admissible under declared evidence and checks; it does
+not mean factual truth. Raw, candidate, and shadow memory may contain prompt
+injection and must not be treated as safe context by default.
+
+External-effect tools still need operating-system, network, and secret isolation
+in production. OAWM's ActionGate is an application-level gate, not a sandbox.
+The `warn` profile is not a security mode.

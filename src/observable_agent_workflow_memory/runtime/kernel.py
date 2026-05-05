@@ -63,6 +63,7 @@ class AgentKernel:
         self.storage = storage
         self.retriever = retriever
         self.llm_provider = llm_provider
+        self.checkers = checkers
         self.proposer = proposer
         self.tool_adapter = tool_adapter
         self.receipt_verifier = receipt_verifier
@@ -529,10 +530,15 @@ class AgentKernel:
             {"candidate": candidate},
         )
 
-    def audit_receipts(self) -> list[dict[str, Any]]:
+    def audit_receipts(self, strict_recheck: bool = False) -> list[dict[str, Any]]:
         rows: list[dict[str, Any]] = []
         for receipt in self.storage.list_receipts():
-            verification = self.verify_receipt(receipt.receipt_id)
+            integrity = self.verify_receipt(receipt.receipt_id)
+            recheck = (
+                self._strict_recheck_receipt(receipt)
+                if strict_recheck and integrity.passed
+                else None
+            )
             rows.append(
                 {
                     "receipt_id": receipt.receipt_id,
@@ -540,11 +546,57 @@ class AgentKernel:
                     "candidate_update_id": receipt.candidate_update_id,
                     "result": receipt.result,
                     "bound_action_id": receipt.bound_action_id or "",
-                    "verified": verification.passed,
-                    "reason": verification.reason,
+                    "verified": integrity.passed
+                    if recheck is None
+                    else integrity.passed and recheck.passed,
+                    "receipt_integrity": integrity.passed,
+                    "checker_recheck": recheck.passed if recheck is not None else None,
+                    "reason": _join_reasons(integrity.reason, recheck.reason if recheck else ""),
                 }
             )
         return rows
+
+    def _strict_recheck_receipt(self, receipt: PromotionReceipt) -> CheckerResult:
+        try:
+            candidate = self.storage.get_memory_record(receipt.candidate_id)
+            manifest_id = next(
+                (ref for ref in receipt.evidence_refs if ref.startswith("evm_")),
+                "",
+            )
+            if not manifest_id:
+                return CheckerResult(
+                    checker_name="strict-recheck",
+                    passed=False,
+                    reason="receipt has no evidence manifest reference",
+                )
+            manifest = self.storage.get_evidence_manifest(manifest_id)
+        except NotFoundError as exc:
+            return CheckerResult(checker_name="strict-recheck", passed=False, reason=str(exc))
+
+        actual_event_digests: dict[str, str] = {}
+        missing_source_event_ids: list[str] = []
+        for event_id in candidate.source_event_ids:
+            try:
+                actual_event_digests[event_id] = self.storage.get_event(event_id).payload_digest
+            except NotFoundError:
+                missing_source_event_ids.append(event_id)
+
+        context = {
+            "actual_event_digests": actual_event_digests,
+            "missing_source_event_ids": missing_source_event_ids,
+        }
+        evidence = manifest.model_dump(mode="json")
+        checks = [
+            checker.verify(candidate, evidence=evidence, context=context)
+            for checker in self.checkers
+        ]
+        failed = [check for check in checks if not check.passed]
+        return CheckerResult(
+            checker_name="strict-recheck",
+            passed=not failed,
+            reason="; ".join(f"{check.checker_name}: {check.reason}" for check in failed),
+            metrics={"failed_checkers": [check.checker_name for check in failed]},
+        )
 
     def _memory_ref(self, memory_id: str) -> dict[str, str]:
         try:
@@ -591,3 +643,7 @@ def _instantiate_plugin(group: str, name: str, *args: Any) -> Any:
         msg = f"plugin {group}:{name} is not callable"
         raise FailClosedError(msg)
     return factory
+
+
+def _join_reasons(*reasons: str) -> str:
+    return "; ".join(reason for reason in reasons if reason)

@@ -80,5 +80,9 @@ def test_provider_contract():
 See `examples/custom_proposer_plugin` for a proposer plugin skeleton and
 `examples/action_bound_tool` for an action-bound tool flow.
 
+Semantic checker templates live in
+`observable_agent_workflow_memory.adapters.semantic_checkers`; see
+`docs/semantic_checkers.md`.
+
 LiteLLM is an optional adapter dependency. Core, storage, retrieval, checker, and
 mock-provider workflows do not require installing model SDKs.

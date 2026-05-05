@@ -1,7 +1,7 @@
 [project]
 name = "observable-agent-workflow-memory"
 version = "0.1.0b0"
-description = "Observable-only workflow memory for long-running no-meta agents."
+description = "Evidence-bound verified workflow memory kernel for long-running AI agents."
 readme = "README.md"
 requires-python = ">=3.11"
 license = "Apache-2.0"
@@ -23,8 +23,13 @@ keywords = [
   "memory",
   "rag",
   "workflow",
+  "workflow-memory",
   "observable-only",
   "no-meta",
+  "verification",
+  "receipts",
+  "action-gate",
+  "llm-agents",
   "self-improvement",
 ]
 dependencies = [

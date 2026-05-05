@@ -240,18 +240,33 @@ def run(
 def audit(
     state: Annotated[Path, typer.Option(help="OAWM state directory.")] = Path(".oawm"),
     receipts: Annotated[bool, typer.Option(help="Verify and print receipt audit rows.")] = False,
+    strict_recheck: Annotated[
+        bool,
+        typer.Option(help="Re-run checker set against current candidate and evidence."),
+    ] = False,
 ) -> None:
     """Print audit counts."""
 
     kernel = _kernel(state)
     if receipts:
-        table = Table("receipt_id", "candidate_id", "result", "action", "verified", "reason")
-        for row in kernel.audit_receipts():
+        table = Table(
+            "receipt_id",
+            "candidate_id",
+            "result",
+            "action",
+            "integrity",
+            "recheck",
+            "verified",
+            "reason",
+        )
+        for row in kernel.audit_receipts(strict_recheck=strict_recheck):
             table.add_row(
                 str(row["receipt_id"]),
                 str(row["candidate_id"]),
                 str(row["result"]),
                 str(row["bound_action_id"]),
+                str(row["receipt_integrity"]),
+                str(row["checker_recheck"]),
                 str(row["verified"]),
                 str(row["reason"]),
             )

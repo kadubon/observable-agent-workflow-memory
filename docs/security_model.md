@@ -3,6 +3,10 @@
 The system assumes that raw memory can be poisoned. Therefore raw and candidate
 memory are not admissible by default.
 
+Prompt injection inside stored memory is expected. The default retrieval mode
+returns only certified memory, and certified means admissible under evidence and
+checks, not true.
+
 The v0.1.0 beta public security model is strict-only. The `warn` profile remains
 an experimental compatibility knob and must not be treated as a security mode.
 
@@ -30,6 +34,11 @@ Quarantine is not deletion. It is an audit lane.
 Externally supplied evidence is untrusted input. The default checker set parses
 the manifest, then recomputes the candidate digest, replay digest, and manifest
 id from the stored candidate and authoritative InputSet digests.
+
+Semantic validity is delegated to domain-specific checker plugins. The default
+checkers verify bindings, schemas, digests, declared tools, deterministic
+boundaries, and resource caps; they do not prove that a workflow claim is
+factually correct.
 
 External effects are blocked unless the caller supplies an `ActionIntent` and a
 passing `PromotionReceipt` bound to that exact action id. A passing receipt for

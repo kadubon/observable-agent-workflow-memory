@@ -5,6 +5,14 @@ long-running agents that need memory they can rely on without a hidden
 meta-controller. It turns short-term observable traces into verified workflow
 memory.
 
+OAWM certifies evidence-bound procedural admissibility for memory reuse. It does
+not certify factual truth, model truthfulness, or real-world safety. A certified
+memory is allowed for reuse under declared evidence and checks; it is not
+globally true by definition.
+
+This project is a workflow-memory verification kernel. It is not a general agent
+framework and not a general-purpose memory database.
+
 ```text
 observable events -> raw memory -> candidate -> verified shadow -> certified workflow
 ```
@@ -238,6 +246,9 @@ configuration error.
 - SQLite files are trusted local state; filesystem permissions are outside OAWM.
 - Strict profile is the default. External effects require action-bound receipts.
 - `warn` profile is experimental and is not a security mode in this beta.
+- Raw, candidate, and shadow memory may be poisoned and must not be treated as
+  safe context by default.
+- Semantic validity depends on domain-specific checker plugins.
 - Checkers validate evidence structure and deterministic bindings; they do not
   prove global truth.
 - Model output can propose candidates, but cannot certify them by itself.
@@ -281,4 +292,5 @@ uv run mypy src
 ```
 
 See `docs/theory_mapping.md`, `docs/theory_sources.md`,
-`docs/security_model.md`, and `docs/plugin_guide.md` for design details.
+`docs/security_model.md`, `docs/semantic_checkers.md`,
+`docs/plugin_guide.md`, and `docs/release_checklist.md` for design details.
