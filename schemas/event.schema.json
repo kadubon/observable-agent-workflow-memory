@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:oawm:schema:event:1.1",
+  "title": "OAWM Event",
+  "type": "object",
+  "required": ["schema_version", "event_id", "event_nonce", "run_id", "agent_id", "kind", "payload", "payload_digest"],
+  "properties": {
+    "schema_version": { "const": "1.1" },
+    "event_id": { "type": "string", "pattern": "^evt_" },
+    "event_nonce": { "type": "string", "pattern": "^[0-9a-f]{32}$" },
+    "run_id": { "type": "string" },
+    "agent_id": { "type": "string" },
+    "kind": { "type": "string", "minLength": 1 },
+    "payload": { "type": "object" },
+    "payload_digest": { "type": "string" },
+    "parents": { "type": "array", "items": { "type": "string" } },
+    "created_at": { "type": "string" },
+    "obs_seq": { "type": "integer", "minimum": 1 },
+    "obs_time": { "type": "string" },
+    "collector_id": { "type": "string" },
+    "collector_seq": { "type": "integer", "minimum": 1 }
+  },
+  "additionalProperties": false
+}

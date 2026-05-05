@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:oawm:schema:promotion_receipt:1.1",
+  "title": "OAWM PromotionReceipt",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "verification_id",
+    "receipt_digest",
+    "candidate_id",
+    "candidate_update_id",
+    "profile",
+    "checks",
+    "result"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.1" },
+    "receipt_id": { "type": "string", "pattern": "^rcp_" },
+    "verification_id": { "type": "string", "pattern": "^ver_" },
+    "receipt_digest": { "type": "string" },
+    "candidate_id": { "type": "string", "pattern": "^mem_" },
+    "candidate_update_id": { "type": "string", "pattern": "^upd_" },
+    "bound_action_id": { "type": ["string", "null"], "pattern": "^act_" },
+    "profile": { "enum": ["strict", "warn"] },
+    "checks": { "type": "array", "items": { "type": "object" } },
+    "result": { "enum": ["passed", "failed"] },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "created_at": { "type": "string" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:oawm:schema:workflow_contract:1.1",
+  "title": "OAWM WorkflowContract",
+  "type": "object",
+  "required": ["schema_version", "contract_id", "name", "interface_signature", "steps", "replay_spec"],
+  "properties": {
+    "schema_version": { "const": "1.1" },
+    "contract_id": { "type": "string", "pattern": "^wfc_" },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "interface_signature": { "type": "string" },
+    "preconditions": { "type": "array", "items": { "type": "string" } },
+    "steps": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "postconditions": { "type": "array", "items": { "type": "string" } },
+    "tools": { "type": "array", "items": { "type": "string" } },
+    "checkers": { "type": "array", "items": { "type": "string" } },
+    "replay_spec": { "type": "object" },
+    "resource_caps": { "type": "object" },
+    "version": { "type": "string" },
+    "source_memory_id": { "type": ["string", "null"] },
+    "source_update_id": { "type": ["string", "null"] },
+    "created_at": { "type": "string" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:oawm:schema:action_intent:1.1",
+  "title": "OAWM ActionIntent",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "action_id",
+    "tool_name",
+    "effect_class",
+    "args_digest",
+    "resource_caps"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.1" },
+    "action_id": { "type": "string", "pattern": "^act_" },
+    "tool_name": { "type": "string", "minLength": 1 },
+    "effect_class": { "type": "string", "minLength": 1 },
+    "args_digest": { "type": "string" },
+    "required_contract_id": { "type": ["string", "null"] },
+    "required_receipt_id": { "type": ["string", "null"] },
+    "resource_caps": { "type": "object" }
+  },
+  "additionalProperties": false
+}

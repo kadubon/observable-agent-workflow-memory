@@ -1,0 +1,91 @@
+[project]
+name = "observable-agent-workflow-memory"
+version = "0.1.0b0"
+description = "Observable-only workflow memory for long-running no-meta agents."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "K. Takahashi" }]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = [
+  "agents",
+  "memory",
+  "rag",
+  "workflow",
+  "observable-only",
+  "no-meta",
+  "self-improvement",
+]
+dependencies = [
+  "jsonschema>=4.22.0",
+  "orjson>=3.10.0",
+  "pydantic>=2.7.0",
+  "rich>=13.7.0",
+  "typer>=0.12.0",
+]
+
+[project.optional-dependencies]
+llm = [
+  "litellm>=1.75.0",
+]
+dev = [
+  "mypy>=1.10.0",
+  "pytest>=8.2.0",
+  "ruff>=0.5.0",
+  "types-jsonschema>=4.23.0.20241208",
+]
+
+[project.scripts]
+oawm = "observable_agent_workflow_memory.cli.app:main"
+
+[project.entry-points."oawm.llm_providers"]
+litellm = "observable_agent_workflow_memory.adapters.litellm_provider:create_provider"
+mock = "observable_agent_workflow_memory.adapters.mock_llm:create_provider"
+
+[project.entry-points."oawm.storage_backends"]
+sqlite = "observable_agent_workflow_memory.adapters.sqlite_storage:create_storage"
+
+[project.entry-points."oawm.retrievers"]
+fts5 = "observable_agent_workflow_memory.adapters.fts_retriever:create_retriever"
+
+[project.entry-points."oawm.checkers"]
+default = "observable_agent_workflow_memory.adapters.jsonschema_checker:create_default_checkers"
+
+[project.entry-points."oawm.proposers"]
+deterministic = "observable_agent_workflow_memory.adapters.deterministic_proposer:create_proposer"
+
+[project.entry-points."oawm.tool_adapters"]
+local = "observable_agent_workflow_memory.adapters.local_tools:create_tool_adapter"
+
+[project.entry-points."oawm.receipt_verifiers"]
+default = "observable_agent_workflow_memory.adapters.receipt_verifier:create_verifier"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+packages = ["observable_agent_workflow_memory"]

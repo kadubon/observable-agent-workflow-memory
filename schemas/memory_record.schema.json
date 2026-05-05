@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:oawm:schema:memory_record:1.1",
+  "title": "OAWM MemoryRecord",
+  "type": "object",
+  "required": ["schema_version", "memory_id", "update_id", "lane", "claim", "source_event_ids"],
+  "properties": {
+    "schema_version": { "const": "1.1" },
+    "memory_id": { "type": "string", "pattern": "^mem_" },
+    "update_id": { "type": "string", "pattern": "^upd_" },
+    "lane": {
+      "enum": ["raw", "candidate", "shadow", "certified", "superseded", "quarantine", "tombstone", "contradiction"]
+    },
+    "claim": { "type": "string", "minLength": 1 },
+    "source_event_ids": { "type": "array", "items": { "type": "string" } },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "supersedes": { "type": "array", "items": { "type": "string" } },
+    "contradicts": { "type": "array", "items": { "type": "string" } },
+    "workflow_contract_id": { "type": ["string", "null"] },
+    "receipt_id": { "type": ["string", "null"] },
+    "status_reason": { "type": "string" },
+    "metadata": { "type": "object" },
+    "created_at": { "type": "string" },
+    "updated_at": { "type": "string" }
+  },
+  "additionalProperties": false
+}

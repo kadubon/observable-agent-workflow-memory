@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:oawm:schema:evidence_manifest:1.1",
+  "title": "OAWM EvidenceManifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "manifest_id",
+    "candidate_id",
+    "candidate_update_id",
+    "input_event_ids",
+    "input_event_digests",
+    "candidate_digest",
+    "replay_digest"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.1" },
+    "manifest_id": { "type": "string", "pattern": "^evm_" },
+    "candidate_id": { "type": "string", "pattern": "^mem_" },
+    "candidate_update_id": { "type": "string", "pattern": "^upd_" },
+    "input_event_ids": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^evt_" },
+      "minItems": 1
+    },
+    "input_event_digests": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "candidate_digest": { "type": "string" },
+    "replay_digest": { "type": "string" },
+    "declared_tools": { "type": "array", "items": { "type": "string" } },
+    "resource_caps": { "type": "object" },
+    "created_at": { "type": "string" }
+  },
+  "additionalProperties": false
+}

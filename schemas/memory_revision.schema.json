@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:oawm:schema:memory_revision:1.1",
+  "title": "OAWM MemoryRevision",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "revision_id",
+    "memory_id",
+    "update_id",
+    "content_digest",
+    "operation",
+    "after_lane",
+    "record",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.1" },
+    "revision_id": { "type": "string", "pattern": "^rev_" },
+    "memory_id": { "type": "string", "pattern": "^mem_" },
+    "update_id": { "type": "string", "pattern": "^upd_" },
+    "content_digest": { "type": "string" },
+    "operation": {
+      "enum": ["write", "replace", "delete", "read", "use", "verify", "correct", "promote"]
+    },
+    "before_lane": {
+      "enum": ["raw", "candidate", "shadow", "certified", "superseded", "quarantine", "tombstone", "contradiction", null]
+    },
+    "after_lane": {
+      "enum": ["raw", "candidate", "shadow", "certified", "superseded", "quarantine", "tombstone", "contradiction"]
+    },
+    "reason": { "type": "string" },
+    "receipt_id": { "type": ["string", "null"] },
+    "event_id": { "type": ["string", "null"] },
+    "record": { "type": "object" },
+    "created_at": { "type": "string" }
+  },
+  "additionalProperties": false
+}
