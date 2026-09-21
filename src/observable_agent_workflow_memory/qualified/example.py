@@ -167,19 +167,30 @@ def run() -> dict[str, Any]:
             cost=Cost(id="use-cost", stage="use", amount="1"),
         )
         assert duplicate["status"] == "duplicate" and len(receiver.store.inspect()["services"]) == 1
-        receiver.record(
-            "invalidate",
-            "failure",
-            {
-                "artifact": q.candidate["artifact_digest"],
-                "context": digest(q.context),
-                "input": q.context.inputs[0],
-                "reason": "host checked scoped counterexample",
-            },
+        # Deliberately faulty host implementation in this disposable synthetic
+        # test: actual file bytes, not an imported "failed" or "passed" flag.
+        original_tools = kernel.tool_adapter
+        faulty_tools = LocalToolAdapter()
+
+        def faulty(arguments: dict[str, Any], _context: dict[str, Any]) -> dict[str, Any]:
+            (root / "negative.txt").write_text(arguments["text"] + "\nwrong", encoding="utf-8")
+            return {"text": (root / "negative.txt").read_text(encoding="utf-8")}
+
+        faulty_tools.register("normalize-lines-v1", faulty)
+        kernel.tool_adapter = faulty_tools
+        negative = receiver.use(
+            digest(q),
+            q.context.inputs[0],
+            identity="negative-use",
             now=6,
             expected=receiver.store.inspect()["revision"],
+            intent=intent,
+            receipts=receipts,
+            cost=Cost(id="negative-use-cost", stage="use", amount="1"),
         )
+        assert not negative["service"]
         assert not receiver.retrieve("A", q.context.inputs[0], now=6)["views"]
+        kernel.tool_adapter = original_tools
         refreshed = propose(
             memory_id=q.memory_id,
             update_id=q.update_id,
@@ -231,6 +242,7 @@ def run() -> dict[str, Any]:
             "refresh": "restored",
             "withdrawal": "both-blocked",
             "unique_services": len(state["services"]),
+            "checked_negative_execution": True,
             "finite_exposure_comparison": {
                 "no_memory": no_memory_count,
                 "legacy": legacy_count,
