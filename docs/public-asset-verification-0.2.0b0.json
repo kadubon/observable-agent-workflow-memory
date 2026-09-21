@@ -1,0 +1,257 @@
+{
+  "release": {
+    "release": "https://github.com/kadubon/observable-agent-workflow-memory/releases/tag/v0.2.0b0",
+    "release_id": 392932321,
+    "published_at": "2026-09-21T12:17:42Z",
+    "unauthenticated": true,
+    "assets": [
+      {
+        "name": "build-manifest.json",
+        "url": "https://github.com/kadubon/observable-agent-workflow-memory/releases/download/v0.2.0b0/build-manifest.json",
+        "sha256": "d833d2777265e838885977f5b0aed55b1de7dfb2960b4067e138398e2e163011",
+        "matches_qualified_bytes": true
+      },
+      {
+        "name": "observable_agent_workflow_memory-0.2.0b0-py3-none-any.whl",
+        "url": "https://github.com/kadubon/observable-agent-workflow-memory/releases/download/v0.2.0b0/observable_agent_workflow_memory-0.2.0b0-py3-none-any.whl",
+        "sha256": "acf1319ddce4f857ff507d3fbe58392f1839b2b89d7d3b9af4fc0ec1591d8cbd",
+        "matches_qualified_bytes": true
+      },
+      {
+        "name": "observable_agent_workflow_memory-0.2.0b0.tar.gz",
+        "url": "https://github.com/kadubon/observable-agent-workflow-memory/releases/download/v0.2.0b0/observable_agent_workflow_memory-0.2.0b0.tar.gz",
+        "sha256": "aee744395bcf2e7e8dd9b7d3dde6a245d4e26a8818c2fcd606579439c8dc105d",
+        "matches_qualified_bytes": true
+      },
+      {
+        "name": "qualification-manifest.json",
+        "url": "https://github.com/kadubon/observable-agent-workflow-memory/releases/download/v0.2.0b0/qualification-manifest.json",
+        "sha256": "7f11defe3c672ce2f644f295acf08f4b09b2eafe6f11d2179f9b6e9b8f34fe4c",
+        "matches_qualified_bytes": true
+      },
+      {
+        "name": "SHA256SUMS",
+        "url": "https://github.com/kadubon/observable-agent-workflow-memory/releases/download/v0.2.0b0/SHA256SUMS",
+        "sha256": "172f91ec70c4a648910841d13cf54a966e2ab173558b35cee6fe8e307e0d9751",
+        "matches_qualified_bytes": true
+      }
+    ]
+  },
+  "source_commit": "883026e647167bcf74e1baf00600c01870fc5c79",
+  "verification_host": "Windows / Python 3.13.3",
+  "commands": [
+    "python scripts/verify_artifact.py PUBLIC_DOWNLOAD --python 3.13 --output public-wheel.json",
+    "python scripts/verify_artifact.py PUBLIC_DOWNLOAD --python 3.13 --sdist --output public-sdist.json"
+  ],
+  "installations": [
+    {
+      "commit": "883026e647167bcf74e1baf00600c01870fc5c79",
+      "artifact": "observable_agent_workflow_memory-0.2.0b0-py3-none-any.whl",
+      "sha256": "acf1319ddce4f857ff507d3fbe58392f1839b2b89d7d3b9af4fc0ec1591d8cbd",
+      "cache_disabled": true,
+      "base_and_native": [
+        {
+          "package_version": "0.2.0b0",
+          "python": "3.13.3",
+          "runtime_sockets": "blocked",
+          "legacy_examples": 3,
+          "new_profile": {
+            "base_without_optional_packages": true
+          }
+        },
+        {
+          "package_version": "0.2.0b0",
+          "python": "3.13.3",
+          "runtime_sockets": "blocked",
+          "legacy_examples": 3,
+          "new_profile": {
+            "version": "oawm-example-v1",
+            "synthetic": true,
+            "receiver_A_initial": "eligible",
+            "receiver_B_initial": "blocked",
+            "receiver_B_after_qualification": "eligible",
+            "refresh": "restored",
+            "withdrawal": "both-blocked",
+            "unique_services": 1,
+            "checked_negative_execution": true,
+            "finite_exposure_comparison": {
+              "no_memory": 0,
+              "legacy": 1,
+              "qualified_A": 1,
+              "qualified_B_initial": 0
+            },
+            "costed_ALT_selected": [
+              "scratch"
+            ],
+            "costs": {
+              "formation": {
+                "amount": "1",
+                "id": "formation",
+                "stage": "formation",
+                "unit": "work-unit"
+              },
+              "train-1": {
+                "amount": "1",
+                "id": "train-1",
+                "stage": "formation",
+                "unit": "work-unit"
+              },
+              "train-2": {
+                "amount": "1",
+                "id": "train-2",
+                "stage": "formation",
+                "unit": "work-unit"
+              },
+              "check-A": {
+                "amount": "1",
+                "id": "check-A",
+                "stage": "verification",
+                "unit": "work-unit"
+              },
+              "use-cost": {
+                "amount": "1",
+                "id": "use-cost",
+                "stage": "use",
+                "unit": "work-unit"
+              },
+              "negative-use-cost": {
+                "amount": "1",
+                "id": "negative-use-cost",
+                "stage": "use",
+                "unit": "work-unit"
+              },
+              "refresh-check": {
+                "amount": "1",
+                "id": "refresh-check",
+                "stage": "verification",
+                "unit": "work-unit"
+              },
+              "check-B": {
+                "amount": "1",
+                "id": "check-B",
+                "stage": "verification",
+                "unit": "work-unit"
+              }
+            },
+            "context_exposure_is_service": false,
+            "native_CCR": "ccr.task.v0.1",
+            "host_admission_required": true,
+            "runtime_network": "blocked",
+            "execution_authority": null,
+            "empirical_acceleration": null
+          }
+        }
+      ],
+      "status": "passed",
+      "outside_checkout": true,
+      "pip_check": "passed",
+      "console_help": "passed"
+    },
+    {
+      "commit": "883026e647167bcf74e1baf00600c01870fc5c79",
+      "artifact": "observable_agent_workflow_memory-0.2.0b0.tar.gz",
+      "sha256": "aee744395bcf2e7e8dd9b7d3dde6a245d4e26a8818c2fcd606579439c8dc105d",
+      "cache_disabled": true,
+      "base_and_native": [
+        {
+          "package_version": "0.2.0b0",
+          "python": "3.13.3",
+          "runtime_sockets": "blocked",
+          "legacy_examples": 3,
+          "new_profile": {
+            "base_without_optional_packages": true
+          }
+        },
+        {
+          "package_version": "0.2.0b0",
+          "python": "3.13.3",
+          "runtime_sockets": "blocked",
+          "legacy_examples": 3,
+          "new_profile": {
+            "version": "oawm-example-v1",
+            "synthetic": true,
+            "receiver_A_initial": "eligible",
+            "receiver_B_initial": "blocked",
+            "receiver_B_after_qualification": "eligible",
+            "refresh": "restored",
+            "withdrawal": "both-blocked",
+            "unique_services": 1,
+            "checked_negative_execution": true,
+            "finite_exposure_comparison": {
+              "no_memory": 0,
+              "legacy": 1,
+              "qualified_A": 1,
+              "qualified_B_initial": 0
+            },
+            "costed_ALT_selected": [
+              "scratch"
+            ],
+            "costs": {
+              "formation": {
+                "amount": "1",
+                "id": "formation",
+                "stage": "formation",
+                "unit": "work-unit"
+              },
+              "train-1": {
+                "amount": "1",
+                "id": "train-1",
+                "stage": "formation",
+                "unit": "work-unit"
+              },
+              "train-2": {
+                "amount": "1",
+                "id": "train-2",
+                "stage": "formation",
+                "unit": "work-unit"
+              },
+              "check-A": {
+                "amount": "1",
+                "id": "check-A",
+                "stage": "verification",
+                "unit": "work-unit"
+              },
+              "use-cost": {
+                "amount": "1",
+                "id": "use-cost",
+                "stage": "use",
+                "unit": "work-unit"
+              },
+              "negative-use-cost": {
+                "amount": "1",
+                "id": "negative-use-cost",
+                "stage": "use",
+                "unit": "work-unit"
+              },
+              "refresh-check": {
+                "amount": "1",
+                "id": "refresh-check",
+                "stage": "verification",
+                "unit": "work-unit"
+              },
+              "check-B": {
+                "amount": "1",
+                "id": "check-B",
+                "stage": "verification",
+                "unit": "work-unit"
+              }
+            },
+            "context_exposure_is_service": false,
+            "native_CCR": "ccr.task.v0.1",
+            "host_admission_required": true,
+            "runtime_network": "blocked",
+            "execution_authority": null,
+            "empirical_acceleration": null
+          }
+        }
+      ],
+      "status": "passed",
+      "outside_checkout": true,
+      "pip_check": "passed",
+      "console_help": "passed"
+    }
+  ],
+  "distribution_bytes_replaced": false,
+  "signature_or_attestation": null,
+  "external_empirical_acceleration": "NOT_PERFORMED"
+}
