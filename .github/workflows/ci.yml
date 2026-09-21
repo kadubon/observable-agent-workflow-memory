@@ -17,7 +17,21 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - uses: astral-sh/setup-uv@v5
-      - run: uv sync --extra dev
-      - run: uv run pytest
+      - run: uv sync --extra dev --group integration --locked
+      - run: uv run --group integration pytest --cov=observable_agent_workflow_memory --cov-branch --cov-report=json:coverage.json
+      - run: uv run --group integration python scripts/coverage_gate.py coverage.json
       - run: uv run ruff check .
       - run: uv run mypy src
+      - run: uv run python scripts/schemas.py --check
+      - run: uv run python scripts/public_audit.py
+  selected-faults-and-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync --extra dev --group integration --locked
+      - run: uv run --group integration python scripts/selected_faults.py
+      - run: uv run --group integration pip-audit

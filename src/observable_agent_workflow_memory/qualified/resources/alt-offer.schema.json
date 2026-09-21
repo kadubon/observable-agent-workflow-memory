@@ -1,0 +1,238 @@
+{
+  "$defs": {
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "maxLength": 100000,
+          "title": "Content",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sha256",
+        "content"
+      ],
+      "title": "Source",
+      "type": "object"
+    }
+  },
+  "$id": "urn:alt:reuse:offer:v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidate": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Candidate",
+      "type": "string"
+    },
+    "checks": {
+      "items": {
+        "$ref": "#/$defs/Source"
+      },
+      "maxItems": 24,
+      "minItems": 1,
+      "title": "Checks",
+      "type": "array"
+    },
+    "comparator": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:-]+$",
+      "title": "Comparator",
+      "type": "string"
+    },
+    "context": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:-]+$",
+      "title": "Context",
+      "type": "string"
+    },
+    "dependencies": {
+      "items": {
+        "pattern": "^[0-9a-f]{64}$",
+        "type": "string"
+      },
+      "title": "Dependencies",
+      "type": "array"
+    },
+    "estimand": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:-]+$",
+      "title": "Estimand",
+      "type": "string"
+    },
+    "evaluator": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:-]+$",
+      "title": "Evaluator",
+      "type": "string"
+    },
+    "evidence_basis": {
+      "enum": [
+        "synthetic",
+        "source-replay"
+      ],
+      "title": "Evidence Basis",
+      "type": "string"
+    },
+    "inputs": {
+      "items": {
+        "pattern": "^[0-9a-f]{64}$",
+        "type": "string"
+      },
+      "maxItems": 24,
+      "minItems": 1,
+      "title": "Inputs",
+      "type": "array"
+    },
+    "mission": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:-]+$",
+      "title": "Mission",
+      "type": "string"
+    },
+    "opportunities": {
+      "items": {
+        "maxLength": 128,
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "maxItems": 24,
+      "minItems": 1,
+      "title": "Opportunities",
+      "type": "array"
+    },
+    "postconditions": {
+      "items": {
+        "maxLength": 128,
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "title": "Postconditions",
+      "type": "array"
+    },
+    "preconditions": {
+      "items": {
+        "maxLength": 128,
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "title": "Preconditions",
+      "type": "array"
+    },
+    "protocol": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:-]+$",
+      "title": "Protocol",
+      "type": "string"
+    },
+    "quality": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:-]+$",
+      "title": "Quality",
+      "type": "string"
+    },
+    "receiver": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:-]+$",
+      "title": "Receiver",
+      "type": "string"
+    },
+    "required_cost_ids": {
+      "items": {
+        "maxLength": 128,
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "maxItems": 24,
+      "minItems": 1,
+      "title": "Required Cost Ids",
+      "type": "array"
+    },
+    "restrictions": {
+      "items": {
+        "maxLength": 128,
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "title": "Restrictions",
+      "type": "array"
+    },
+    "task_family": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:-]+$",
+      "title": "Task Family",
+      "type": "string"
+    },
+    "valid_from": {
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Valid From",
+      "type": "integer"
+    },
+    "valid_until": {
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Valid Until",
+      "type": "integer"
+    },
+    "valuation": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:-]+$",
+      "title": "Valuation",
+      "type": "string"
+    },
+    "version": {
+      "const": "alt_reuse_offer_v1",
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "version",
+    "candidate",
+    "receiver",
+    "mission",
+    "context",
+    "task_family",
+    "inputs",
+    "opportunities",
+    "protocol",
+    "evaluator",
+    "valid_from",
+    "valid_until",
+    "restrictions",
+    "dependencies",
+    "preconditions",
+    "postconditions",
+    "checks",
+    "required_cost_ids",
+    "comparator",
+    "estimand",
+    "quality",
+    "valuation",
+    "evidence_basis"
+  ],
+  "title": "Offer",
+  "type": "object"
+}

@@ -55,6 +55,8 @@ class MemoryPromotionPipeline:
         evidence: dict[str, Any] | None = None,
         context: dict[str, Any] | None = None,
     ) -> PromotionReceipt:
+        if not self.checkers:
+            raise FailClosedError("verification requires a nonempty checker set")
         candidate = self.storage.get_memory_record(candidate_id)
         actual_event_digests, missing_source_event_ids = self._collect_event_digests(candidate)
         checker_context = dict(context or {})
@@ -114,7 +116,10 @@ class MemoryPromotionPipeline:
         passing = [
             receipt
             for receipt in receipts
-            if receipt.result == "passed" and receipt.candidate_update_id == candidate.update_id
+            if receipt.result == "passed"
+            and receipt.checks
+            and all(check.passed for check in receipt.checks)
+            and receipt.candidate_update_id == candidate.update_id
         ]
         if not passing:
             raise FailClosedError("promotion requires a passing receipt for this candidate update")

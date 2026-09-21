@@ -1,6 +1,6 @@
 # Observable Agent Workflow Memory
 
-`observable-agent-workflow-memory` v0.1.0 beta is a local-first Python package and CLI for
+`observable-agent-workflow-memory` v0.2.0b0 beta is a local-first Python package and CLI for
 long-running agents that need memory they can rely on without a hidden
 meta-controller. It turns short-term observable traces into verified workflow
 memory.
@@ -294,3 +294,20 @@ uv run mypy src
 See `docs/theory_mapping.md`, `docs/theory_sources.md`,
 `docs/security_model.md`, `docs/semantic_checkers.md`,
 `docs/plugin_guide.md`, and `docs/release_checklist.md` for design details.
+
+## Receiver-qualified reuse (opt-in)
+
+Version 0.2.0b0 adds a finite source-bound ALT 0.5.0 round trip, named-receiver
+retrieval connected to `AgentKernel.run_qualified`, gated local execution,
+independently checked outcomes, scoped lifecycle feedback and CCR 1.8.0 task
+proposals. Existing schema 1.1 and legacy APIs remain available. Context exposure
+is not procedure execution, and qualification is not authority.
+
+Run `oawm qualified --help` and see [the installed quickstart](docs/receiver-qualified-memory.md),
+[native contracts](docs/alt-interoperability.md), [lifecycle rules](docs/memory-use-and-lifecycle.md)
+and [publication evidence](docs/publication-0.2.0b0.md). Base OAWM requires no companion
+or LLM SDK; native examples require explicit installation of pinned GitHub wheels.
+GitHub prerelease assets are the requested channel; PyPI publication is not claimed.
+
+Background: [collective-intelligence research index](https://kadubon.github.io/github.io/collective-intelligence-index.ja.html).
+No external empirical acceleration experiment was performed.

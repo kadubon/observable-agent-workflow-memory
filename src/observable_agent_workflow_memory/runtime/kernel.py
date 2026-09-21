@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import uuid
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from observable_agent_workflow_memory.adapters.deterministic_proposer import (
     DeterministicWorkflowProposer,
@@ -416,6 +416,20 @@ class AgentKernel:
         if callable(authorizer):
             context = authorizer(context)
         return self.tool_adapter.invoke(call, context=context)
+
+    def run_qualified(
+        self,
+        task: str,
+        *,
+        receiver_runtime: Any,
+        receiver: str,
+        input_text: str,
+        now: int,
+    ) -> LLMResult:
+        """Opt-in qualified context exposure; never records procedural success."""
+        if receiver_runtime.kernel is not self:
+            raise FailClosedError("receiver runtime belongs to another kernel")
+        return cast(LLMResult, receiver_runtime.run(task, receiver, input_text, now=now))
 
     def retire(self, memory_id: str, reason: str) -> MemoryRecord:
         record = self.storage.get_memory_record(memory_id)

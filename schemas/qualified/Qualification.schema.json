@@ -1,0 +1,314 @@
+{
+  "$defs": {
+    "Context": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "oawm_receiver_v1",
+          "default": "oawm_receiver_v1",
+          "title": "Version",
+          "type": "string"
+        },
+        "workspace": {
+          "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+          "title": "Workspace",
+          "type": "string"
+        },
+        "receiver": {
+          "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+          "title": "Receiver",
+          "type": "string"
+        },
+        "mission": {
+          "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+          "title": "Mission",
+          "type": "string"
+        },
+        "task_family": {
+          "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+          "title": "Task Family",
+          "type": "string"
+        },
+        "context": {
+          "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+          "title": "Context",
+          "type": "string"
+        },
+        "inputs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "title": "Inputs",
+          "type": "array"
+        },
+        "protocol": {
+          "default": "normalize-protocol-v1",
+          "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+          "title": "Protocol",
+          "type": "string"
+        },
+        "evaluator": {
+          "default": "normalize-checker-v1",
+          "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+          "title": "Evaluator",
+          "type": "string"
+        },
+        "tool_version": {
+          "default": "normalize-lines-v1",
+          "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+          "title": "Tool Version",
+          "type": "string"
+        },
+        "clock": {
+          "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+          "title": "Clock",
+          "type": "string"
+        },
+        "dependencies": {
+          "items": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "title": "Dependencies",
+          "type": "array"
+        },
+        "checks": {
+          "items": {
+            "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+            "type": "string"
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "title": "Checks",
+          "type": "array"
+        },
+        "restrictions": {
+          "items": {
+            "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+            "type": "string"
+          },
+          "maxItems": 8,
+          "title": "Restrictions",
+          "type": "array"
+        },
+        "expose": {
+          "default": false,
+          "title": "Expose",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "workspace",
+        "receiver",
+        "mission",
+        "task_family",
+        "context",
+        "inputs",
+        "clock",
+        "dependencies",
+        "checks"
+      ],
+      "title": "Context",
+      "type": "object"
+    },
+    "Cost": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "stage": {
+          "enum": [
+            "formation",
+            "verification",
+            "transfer",
+            "refresh",
+            "maintenance",
+            "use"
+          ],
+          "title": "Stage",
+          "type": "string"
+        },
+        "unit": {
+          "const": "work-unit",
+          "default": "work-unit",
+          "title": "Unit",
+          "type": "string"
+        },
+        "amount": {
+          "title": "Amount",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "stage",
+        "amount"
+      ],
+      "title": "Cost",
+      "type": "object"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+          "title": "Event Id",
+          "type": "string"
+        },
+        "producer_digest": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Producer Digest",
+          "type": "string"
+        },
+        "raw": {
+          "title": "Raw",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "event_id",
+        "producer_digest",
+        "raw",
+        "sha256"
+      ],
+      "title": "Source",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "oawm_qualification_v1",
+      "default": "oawm_qualification_v1",
+      "title": "Version",
+      "type": "string"
+    },
+    "memory_id": {
+      "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+      "title": "Memory Id",
+      "type": "string"
+    },
+    "update_id": {
+      "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+      "title": "Update Id",
+      "type": "string"
+    },
+    "workflow_digest": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Workflow Digest",
+      "type": "string"
+    },
+    "context": {
+      "$ref": "#/$defs/Context"
+    },
+    "valid_from": {
+      "maximum": 2147483648,
+      "minimum": 0,
+      "title": "Valid From",
+      "type": "integer"
+    },
+    "valid_until": {
+      "maximum": 2147483648,
+      "minimum": 0,
+      "title": "Valid Until",
+      "type": "integer"
+    },
+    "cutoff": {
+      "maximum": 2147483648,
+      "minimum": 0,
+      "title": "Cutoff",
+      "type": "integer"
+    },
+    "training": {
+      "items": {
+        "$ref": "#/$defs/Source"
+      },
+      "maxItems": 8,
+      "minItems": 2,
+      "title": "Training",
+      "type": "array"
+    },
+    "evaluation": {
+      "items": {
+        "$ref": "#/$defs/Source"
+      },
+      "maxItems": 8,
+      "minItems": 1,
+      "title": "Evaluation",
+      "type": "array"
+    },
+    "formation": {
+      "additionalProperties": true,
+      "title": "Formation",
+      "type": "object"
+    },
+    "candidate": {
+      "additionalProperties": true,
+      "title": "Candidate",
+      "type": "object"
+    },
+    "offer": {
+      "additionalProperties": true,
+      "title": "Offer",
+      "type": "object"
+    },
+    "mapping": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Mapping",
+      "type": "object"
+    },
+    "costs": {
+      "items": {
+        "$ref": "#/$defs/Cost"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Costs",
+      "type": "array"
+    },
+    "source_authentication": {
+      "default": null,
+      "title": "Source Authentication",
+      "type": "null"
+    },
+    "execution_authority": {
+      "default": null,
+      "title": "Execution Authority",
+      "type": "null"
+    }
+  },
+  "required": [
+    "memory_id",
+    "update_id",
+    "workflow_digest",
+    "context",
+    "valid_from",
+    "valid_until",
+    "cutoff",
+    "training",
+    "evaluation",
+    "formation",
+    "candidate",
+    "offer",
+    "mapping",
+    "costs"
+  ],
+  "title": "Qualification",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kadubon.github.io/oawm/qualified/v1/Qualification.schema.json"
+}

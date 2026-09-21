@@ -51,3 +51,7 @@ These are examples, not complete domain validation systems.
   failure.
 - Make domain assumptions explicit in checker names and docs.
 - Do not label a passing semantic checker as truth certification.
+
+## 0.2.0b0 receiver profile
+
+The new normalize-lines-v1 finite checker independently tests sorted/unique output against the exact recorded input, rather than accepting replay_success flags. Its implementation/source scope and receiver evidence are documented in alt-interoperability.md. It establishes no general semantic equivalence for prose workflows.

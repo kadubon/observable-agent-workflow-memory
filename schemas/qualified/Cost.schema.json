@@ -1,0 +1,41 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+      "title": "Id",
+      "type": "string"
+    },
+    "stage": {
+      "enum": [
+        "formation",
+        "verification",
+        "transfer",
+        "refresh",
+        "maintenance",
+        "use"
+      ],
+      "title": "Stage",
+      "type": "string"
+    },
+    "unit": {
+      "const": "work-unit",
+      "default": "work-unit",
+      "title": "Unit",
+      "type": "string"
+    },
+    "amount": {
+      "title": "Amount",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "stage",
+    "amount"
+  ],
+  "title": "Cost",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kadubon.github.io/oawm/qualified/v1/Cost.schema.json"
+}

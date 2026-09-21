@@ -48,3 +48,7 @@ tool adapter also requires an internal runtime token, so passing
 
 This is not a sandbox. Tool implementations still need normal OS-level,
 network-level, and secrets-management controls in production.
+
+## 0.2.0b0 receiver profile
+
+The receiver profile adds strict bounded sidecars and transactional revision fences; its read-only paths do not initialize storage. Registered primitive execution remains local host policy. Unknown outcomes retain unresolved costs, and source digests are not authentication. See receiver-qualified-memory.md and memory-use-and-lifecycle.md.

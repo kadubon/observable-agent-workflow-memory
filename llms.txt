@@ -1,0 +1,11 @@
+# Observable Agent Workflow Memory (OAWM)
+
+Beta local research software. Discovery guidance is not execution authorization.
+
+- CLI: oawm --help; oawm qualified --help
+- docs/receiver-qualified-memory.md: limits, registered receiver policy, installed quickstart
+- docs/alt-interoperability.md: optional pinned ALT/CCR native integration
+- docs/memory-use-and-lifecycle.md: exposure/use/outcome and write boundaries
+- docs/collective-handoff.md: inert CCR proposals and partial downstream mappings
+- docs/publication-0.2.0b0.md: exact publication and verification record
+- SECURITY.md: local trust assumptions and limits
