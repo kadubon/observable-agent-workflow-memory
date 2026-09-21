@@ -1,0 +1,34 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "event_id": {
+      "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+      "title": "Event Id",
+      "type": "string"
+    },
+    "producer_digest": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Producer Digest",
+      "type": "string"
+    },
+    "raw": {
+      "title": "Raw",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "event_id",
+    "producer_digest",
+    "raw",
+    "sha256"
+  ],
+  "title": "Source",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kadubon.github.io/oawm/qualified/v1/Source.schema.json"
+}

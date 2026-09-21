@@ -52,3 +52,7 @@ invariants. It does not claim to solve truthfulness or full autonomous safety.
   `ActionIntent` used for the external effect.
 - The deterministic-boundary checker rejects floats in decision-critical
   candidate metadata and evidence.
+
+## 0.2.0b0 receiver profile
+
+The receiver profile separates exposure, attempted execution, checked service and current eligibility. Finite ALT formation and economic comparison remain ALT-owned; lifecycle records do not become capability stock or causal evidence. See alt-interoperability.md and collective-handoff.md.

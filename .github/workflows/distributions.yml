@@ -1,0 +1,66 @@
+name: distribution qualification
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: astral-sh/setup-uv@v5
+      - run: uv build --no-sources
+      - run: uvx twine check dist/*.whl dist/*.tar.gz
+      - run: python scripts/build_manifest.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: distributions
+          path: dist/*
+          if-no-files-found: error
+  installed:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ['3.11', '3.13']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: astral-sh/setup-uv@v5
+      - uses: actions/download-artifact@v4
+        with:
+          name: distributions
+          path: dist
+      - run: python scripts/verify_artifact.py dist --python ${{ matrix.python }} --output '${{ runner.temp }}/installed.json'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: installed-${{ matrix.os }}-${{ matrix.python }}
+          path: ${{ runner.temp }}/installed.json
+  sdist:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: astral-sh/setup-uv@v5
+      - uses: actions/download-artifact@v4
+        with:
+          name: distributions
+          path: dist
+      - run: python scripts/verify_artifact.py dist --python 3.13 --sdist --output '${{ runner.temp }}/installed.json'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: installed-sdist
+          path: ${{ runner.temp }}/installed.json

@@ -1,0 +1,203 @@
+{
+  "$defs": {
+    "Atom": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "integer",
+            "string",
+            "reference",
+            "parameter"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "kind",
+        "value"
+      ],
+      "title": "Atom",
+      "type": "object"
+    },
+    "Step": {
+      "additionalProperties": false,
+      "properties": {
+        "arguments": {
+          "items": {
+            "$ref": "#/$defs/Atom"
+          },
+          "maxItems": 8,
+          "title": "Arguments",
+          "type": "array"
+        },
+        "primitive": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_.:-]+$",
+          "title": "Primitive",
+          "type": "string"
+        }
+      },
+      "required": [
+        "primitive",
+        "arguments"
+      ],
+      "title": "Step",
+      "type": "object"
+    }
+  },
+  "$id": "urn:alt:reuse:candidate:v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_digest": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Artifact Digest",
+      "type": "string"
+    },
+    "dependencies": {
+      "items": {
+        "pattern": "^[0-9a-f]{64}$",
+        "type": "string"
+      },
+      "title": "Dependencies",
+      "type": "array"
+    },
+    "execution_authority": {
+      "title": "Execution Authority",
+      "type": "null"
+    },
+    "extractor": {
+      "const": "whole-sequence-1",
+      "title": "Extractor",
+      "type": "string"
+    },
+    "formation_cost_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:-]+$",
+      "title": "Formation Cost Id",
+      "type": "string"
+    },
+    "guards": {
+      "items": {
+        "maxLength": 128,
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "title": "Guards",
+      "type": "array"
+    },
+    "implementation_digests": {
+      "items": {
+        "pattern": "^[0-9a-f]{64}$",
+        "type": "string"
+      },
+      "title": "Implementation Digests",
+      "type": "array"
+    },
+    "qualification": {
+      "enum": [
+        "candidate",
+        "unqualified"
+      ],
+      "title": "Qualification",
+      "type": "string"
+    },
+    "representation": {
+      "items": {
+        "$ref": "#/$defs/Step"
+      },
+      "title": "Representation",
+      "type": "array"
+    },
+    "request_digest": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Request Digest",
+      "type": "string"
+    },
+    "scope": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:-]+$",
+      "title": "Scope",
+      "type": "string"
+    },
+    "settlement": {
+      "title": "Settlement",
+      "type": "null"
+    },
+    "source_authentication": {
+      "title": "Source Authentication",
+      "type": "null"
+    },
+    "source_cost_ids": {
+      "items": {
+        "maxLength": 128,
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "title": "Source Cost Ids",
+      "type": "array"
+    },
+    "source_digests": {
+      "items": {
+        "pattern": "^[0-9a-f]{64}$",
+        "type": "string"
+      },
+      "title": "Source Digests",
+      "type": "array"
+    },
+    "unresolved": {
+      "items": {
+        "maxLength": 128,
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9_.:-]+$",
+        "type": "string"
+      },
+      "title": "Unresolved",
+      "type": "array"
+    },
+    "version": {
+      "const": "alt_reuse_candidate_v1",
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "version",
+    "request_digest",
+    "extractor",
+    "artifact_digest",
+    "scope",
+    "source_digests",
+    "representation",
+    "implementation_digests",
+    "guards",
+    "dependencies",
+    "unresolved",
+    "formation_cost_id",
+    "source_cost_ids",
+    "qualification",
+    "source_authentication",
+    "settlement",
+    "execution_authority"
+  ],
+  "title": "Candidate",
+  "type": "object"
+}

@@ -1,0 +1,206 @@
+{
+  "$defs": {
+    "Parameter": {
+      "additionalProperties": false,
+      "properties": {
+        "argument": {
+          "maximum": 7,
+          "minimum": 0,
+          "title": "Argument",
+          "type": "integer"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_.:-]+$",
+          "title": "Name",
+          "type": "string"
+        },
+        "step": {
+          "maximum": 7,
+          "minimum": 0,
+          "title": "Step",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "name",
+        "step",
+        "argument"
+      ],
+      "title": "Parameter",
+      "type": "object"
+    },
+    "Primitive": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_.:-]+$",
+          "title": "Id",
+          "type": "string"
+        },
+        "implementation": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Implementation",
+          "type": "string"
+        },
+        "inputs": {
+          "items": {
+            "enum": [
+              "integer",
+              "string"
+            ],
+            "type": "string"
+          },
+          "title": "Inputs",
+          "type": "array"
+        },
+        "output": {
+          "enum": [
+            "integer",
+            "string"
+          ],
+          "title": "Output",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "implementation",
+        "inputs",
+        "output"
+      ],
+      "title": "Primitive",
+      "type": "object"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "maxLength": 100000,
+          "title": "Content",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sha256",
+        "content"
+      ],
+      "title": "Source",
+      "type": "object"
+    }
+  },
+  "$id": "urn:alt:reuse:formation:v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attempt_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:-]+$",
+      "title": "Attempt Id",
+      "type": "string"
+    },
+    "cost": {
+      "maxLength": 81,
+      "pattern": "^-?(0|[1-9][0-9]*)(/[1-9][0-9]*)?$",
+      "title": "Cost",
+      "type": "string"
+    },
+    "cost_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:-]+$",
+      "title": "Cost Id",
+      "type": "string"
+    },
+    "cost_unit": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:-]+$",
+      "title": "Cost Unit",
+      "type": "string"
+    },
+    "cutoff": {
+      "maximum": 1000000,
+      "minimum": 0,
+      "title": "Cutoff",
+      "type": "integer"
+    },
+    "expansion_limit": {
+      "maximum": 1024,
+      "minimum": 1,
+      "title": "Expansion Limit",
+      "type": "integer"
+    },
+    "library": {
+      "items": {
+        "$ref": "#/$defs/Primitive"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "title": "Library",
+      "type": "array"
+    },
+    "mode": {
+      "enum": [
+        "package",
+        "sequence"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "parameters": {
+      "items": {
+        "$ref": "#/$defs/Parameter"
+      },
+      "maxItems": 16,
+      "title": "Parameters",
+      "type": "array"
+    },
+    "scope": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_.:-]+$",
+      "title": "Scope",
+      "type": "string"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/Source"
+      },
+      "maxItems": 8,
+      "minItems": 1,
+      "title": "Sources",
+      "type": "array"
+    },
+    "version": {
+      "const": "alt_reuse_formation_v1",
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "version",
+    "mode",
+    "scope",
+    "cutoff",
+    "sources",
+    "library",
+    "parameters",
+    "attempt_id",
+    "cost_id",
+    "cost_unit",
+    "cost",
+    "expansion_limit"
+  ],
+  "title": "Formation",
+  "type": "object"
+}

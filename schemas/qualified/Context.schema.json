@@ -1,0 +1,117 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "oawm_receiver_v1",
+      "default": "oawm_receiver_v1",
+      "title": "Version",
+      "type": "string"
+    },
+    "workspace": {
+      "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+      "title": "Workspace",
+      "type": "string"
+    },
+    "receiver": {
+      "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+      "title": "Receiver",
+      "type": "string"
+    },
+    "mission": {
+      "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+      "title": "Mission",
+      "type": "string"
+    },
+    "task_family": {
+      "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+      "title": "Task Family",
+      "type": "string"
+    },
+    "context": {
+      "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+      "title": "Context",
+      "type": "string"
+    },
+    "inputs": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 8,
+      "minItems": 1,
+      "title": "Inputs",
+      "type": "array"
+    },
+    "protocol": {
+      "default": "normalize-protocol-v1",
+      "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+      "title": "Protocol",
+      "type": "string"
+    },
+    "evaluator": {
+      "default": "normalize-checker-v1",
+      "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+      "title": "Evaluator",
+      "type": "string"
+    },
+    "tool_version": {
+      "default": "normalize-lines-v1",
+      "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+      "title": "Tool Version",
+      "type": "string"
+    },
+    "clock": {
+      "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+      "title": "Clock",
+      "type": "string"
+    },
+    "dependencies": {
+      "items": {
+        "pattern": "^[0-9a-f]{64}$",
+        "type": "string"
+      },
+      "maxItems": 8,
+      "minItems": 1,
+      "title": "Dependencies",
+      "type": "array"
+    },
+    "checks": {
+      "items": {
+        "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+        "type": "string"
+      },
+      "maxItems": 8,
+      "minItems": 1,
+      "title": "Checks",
+      "type": "array"
+    },
+    "restrictions": {
+      "items": {
+        "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+        "type": "string"
+      },
+      "maxItems": 8,
+      "title": "Restrictions",
+      "type": "array"
+    },
+    "expose": {
+      "default": false,
+      "title": "Expose",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "workspace",
+    "receiver",
+    "mission",
+    "task_family",
+    "context",
+    "inputs",
+    "clock",
+    "dependencies",
+    "checks"
+  ],
+  "title": "Context",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kadubon.github.io/oawm/qualified/v1/Context.schema.json"
+}

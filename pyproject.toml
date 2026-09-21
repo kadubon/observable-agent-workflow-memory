@@ -1,6 +1,6 @@
 [project]
 name = "observable-agent-workflow-memory"
-version = "0.1.0b0"
+version = "0.2.0b0"
 description = "Evidence-bound verified workflow memory kernel for long-running AI agents."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -33,6 +33,7 @@ keywords = [
   "self-improvement",
 ]
 dependencies = [
+  "click>=8.3.3",
   "jsonschema>=4.22.0",
   "orjson>=3.10.0",
   "pydantic>=2.7.0",
@@ -45,11 +46,26 @@ llm = [
   "litellm>=1.75.0",
 ]
 dev = [
+  "pytest-cov>=7.0",
+  "hypothesis>=6.0",
+  "pip-audit>=2.9",
+  "twine>=6.0",
   "mypy>=1.10.0",
   "pytest>=8.2.0",
   "ruff>=0.5.0",
   "types-jsonschema>=4.23.0.20241208",
 ]
+
+[dependency-groups]
+integration = [
+  "alt-foundry-kernel @ https://github.com/kadubon/alt-foundry-kernel/releases/download/v0.5.0/alt_foundry_kernel-0.5.0-py3-none-any.whl#sha256=cd6755db6d97f978300d978695dc70c19d64fdd11c58e0c6dc4c1fcb7db9f487",
+  "collective-capability-runtime @ https://github.com/kadubon/collective-capability-runtime/releases/download/v1.8.0/collective_capability_runtime-1.8.0-py3-none-any.whl#sha256=97b2f3dc1f675c78246c362d211b71452b721b001e25dd2711263f34874f8b25",
+]
+
+[tool.hatch.build.targets.wheel.force-include]
+"schemas" = "observable_agent_workflow_memory/resources/schemas"
+"migrations" = "observable_agent_workflow_memory/resources/migrations"
+"examples" = "observable_agent_workflow_memory/resources/examples"
 
 [project.scripts]
 oawm = "observable_agent_workflow_memory.cli.app:main"

@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 import re
 import sqlite3
+from collections.abc import Iterator
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
@@ -32,10 +34,15 @@ class SQLiteStorage:
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
 
-    def _connect(self) -> sqlite3.Connection:
+    @contextmanager
+    def _connect(self) -> Iterator[sqlite3.Connection]:
         con = sqlite3.connect(self.db_path)
         con.row_factory = sqlite3.Row
-        return con
+        try:
+            with con:
+                yield con
+        finally:
+            con.close()
 
     def initialize(self) -> None:
         with self._connect() as con:
@@ -140,8 +147,7 @@ class SQLiteStorage:
                 "ON evidence_manifests(candidate_id)"
             )
             con.execute(
-                "CREATE INDEX IF NOT EXISTS idx_manifests_id "
-                "ON evidence_manifests(manifest_id)"
+                "CREATE INDEX IF NOT EXISTS idx_manifests_id ON evidence_manifests(manifest_id)"
             )
             con.execute("PRAGMA user_version = 11")
 
@@ -497,9 +503,7 @@ class SQLiteStorage:
             manifest_count = int(
                 con.execute("SELECT COUNT(*) FROM evidence_manifests").fetchone()[0]
             )
-            revision_count = int(
-                con.execute("SELECT COUNT(*) FROM memory_revisions").fetchone()[0]
-            )
+            revision_count = int(con.execute("SELECT COUNT(*) FROM memory_revisions").fetchone()[0])
         counts = {str(row["lane"]): int(row["n"]) for row in rows}
         counts["events"] = event_count
         counts["receipts"] = receipt_count

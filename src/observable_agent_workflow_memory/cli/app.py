@@ -12,6 +12,7 @@ from rich.table import Table
 from observable_agent_workflow_memory.core.jsonio import loads_strict_json
 from observable_agent_workflow_memory.core.models import ActionIntent
 from observable_agent_workflow_memory.ports.plugins import list_entry_points
+from observable_agent_workflow_memory.qualified.cli import app as qualified_app
 from observable_agent_workflow_memory.runtime.kernel import AgentKernel
 
 app = typer.Typer(help="Observable-only workflow memory for no-meta agents.")
@@ -19,6 +20,7 @@ plugins_app = typer.Typer(help="Inspect installed plugins.")
 intent_app = typer.Typer(help="Create and inspect action intents.")
 app.add_typer(plugins_app, name="plugins")
 app.add_typer(intent_app, name="intent")
+app.add_typer(qualified_app, name="qualified")
 console = Console()
 
 
@@ -328,9 +330,7 @@ def _read_payloads(path: Path) -> list[dict[str, Any]]:
         return []
     if path.suffix.lower() == ".jsonl":
         return [
-            _payload_item(loads_strict_json(line))
-            for line in stripped.splitlines()
-            if line.strip()
+            _payload_item(loads_strict_json(line)) for line in stripped.splitlines() if line.strip()
         ]
     parsed = loads_strict_json(stripped)
     if isinstance(parsed, list):

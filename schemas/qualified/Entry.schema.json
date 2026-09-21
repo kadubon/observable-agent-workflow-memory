@@ -1,0 +1,61 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "oawm_lifecycle_v1",
+      "default": "oawm_lifecycle_v1",
+      "title": "Version",
+      "type": "string"
+    },
+    "id": {
+      "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+      "title": "Id",
+      "type": "string"
+    },
+    "previous": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Previous",
+      "type": "string"
+    },
+    "time": {
+      "maximum": 2147483648,
+      "minimum": 0,
+      "title": "Time",
+      "type": "integer"
+    },
+    "kind": {
+      "enum": [
+        "admit",
+        "exposure",
+        "intent",
+        "attempt",
+        "outcome",
+        "checked",
+        "reconciled",
+        "invalidate",
+        "allegation",
+        "withdraw",
+        "cost",
+        "correction"
+      ],
+      "title": "Kind",
+      "type": "string"
+    },
+    "data": {
+      "additionalProperties": true,
+      "title": "Data",
+      "type": "object"
+    }
+  },
+  "required": [
+    "id",
+    "previous",
+    "time",
+    "kind",
+    "data"
+  ],
+  "title": "Entry",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kadubon.github.io/oawm/qualified/v1/Entry.schema.json"
+}

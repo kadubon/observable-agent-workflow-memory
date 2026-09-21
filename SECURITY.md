@@ -23,3 +23,7 @@ injection and must not be treated as safe context by default.
 External-effect tools still need operating-system, network, and secret isolation
 in production. OAWM's ActionGate is an application-level gate, not a sandbox.
 The `warn` profile is not a security mode.
+
+## 0.2.0b0 receiver profile
+
+The opt-in receiver profile rechecks authoritative revisions and scoped sources at retrieval and use. It does not trust custom retrieval labels. Empty promotion checks and altered ActionIntent fields retaining an old ID now fail closed. Host clocks, local SQLite files and registered plugins remain trusted. See docs/receiver-qualified-memory.md and docs/memory-use-and-lifecycle.md.

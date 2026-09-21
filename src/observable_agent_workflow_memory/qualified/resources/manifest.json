@@ -1,0 +1,90 @@
+[
+  {
+    "file": "alt-formation.schema.json",
+    "repository": "alt-foundry-kernel",
+    "version": "0.5.0",
+    "commit": "cdb5c7d845364f0bec42ebe5e865871b2bde2e91",
+    "path": "schemas/reuse/formation.schema.json",
+    "sha256": "f81c0c6221c49803db4c1b0abd719a56644cf4d5d64d43bfedc29ebfe731033c"
+  },
+  {
+    "file": "alt-candidate.schema.json",
+    "repository": "alt-foundry-kernel",
+    "version": "0.5.0",
+    "commit": "cdb5c7d845364f0bec42ebe5e865871b2bde2e91",
+    "path": "schemas/reuse/candidate.schema.json",
+    "sha256": "5b02dd41740d37306f18e2bb060314cbe12ec3afaeedb7e30fe0958389cec21c"
+  },
+  {
+    "file": "alt-offer.schema.json",
+    "repository": "alt-foundry-kernel",
+    "version": "0.5.0",
+    "commit": "cdb5c7d845364f0bec42ebe5e865871b2bde2e91",
+    "path": "schemas/reuse/offer.schema.json",
+    "sha256": "10d50181cbcf2052afee912b779a646b9494b44f89470dbf87553aee2af3cb49"
+  },
+  {
+    "file": "alt-collective-reuse.md",
+    "repository": "alt-foundry-kernel",
+    "version": "0.5.0",
+    "commit": "cdb5c7d845364f0bec42ebe5e865871b2bde2e91",
+    "path": "docs/collective-reuse.md",
+    "sha256": "d9260e3149131fb2a8f58d434f531b61d8de69668c49e707cc15c35585e028f0"
+  },
+  {
+    "file": "alt-reuse-interchange.md",
+    "repository": "alt-foundry-kernel",
+    "version": "0.5.0",
+    "commit": "cdb5c7d845364f0bec42ebe5e865871b2bde2e91",
+    "path": "docs/reuse-interchange.md",
+    "sha256": "4545bb5f64f1cd1c84f8da45cc8ba86951975d939d6bb784c95dda4b27c2ad75"
+  },
+  {
+    "file": "alt-LICENSE",
+    "repository": "alt-foundry-kernel",
+    "version": "0.5.0",
+    "commit": "cdb5c7d845364f0bec42ebe5e865871b2bde2e91",
+    "path": "LICENSE",
+    "sha256": "44ba3cb6326a97bfae6eeb046322a9295179315a4cf30c909d469bda531bd1f9"
+  },
+  {
+    "file": "ccr-task.schema.json",
+    "repository": "collective-capability-runtime",
+    "version": "1.8.0",
+    "commit": "1591e88e3b05f9b5fb06b2d0c749aad8bc0909be",
+    "path": "schemas/task.schema.json",
+    "sha256": "ac305fd7a660fee7de24e3971ecf38eda1a9a626f5dd1dc1661f2958786ae7be"
+  },
+  {
+    "file": "ccr-task.json",
+    "repository": "collective-capability-runtime",
+    "version": "1.8.0",
+    "commit": "1591e88e3b05f9b5fb06b2d0c749aad8bc0909be",
+    "path": "examples/minimal/task.json",
+    "sha256": "d45f3e4cbf426c7ec7ce2d4fb6459fe3f65c7822dfeff7a695794411ebee9bf7"
+  },
+  {
+    "file": "ccr-verified-growth-interchange.md",
+    "repository": "collective-capability-runtime",
+    "version": "1.8.0",
+    "commit": "1591e88e3b05f9b5fb06b2d0c749aad8bc0909be",
+    "path": "docs/verified-growth-interchange.md",
+    "sha256": "cfebb528cd0f4f85a09c87c8b7488e9823e6e38ace80bbe10cec5798950aff3f"
+  },
+  {
+    "file": "ccr-LICENSE",
+    "repository": "collective-capability-runtime",
+    "version": "1.8.0",
+    "commit": "1591e88e3b05f9b5fb06b2d0c749aad8bc0909be",
+    "path": "LICENSE",
+    "sha256": "d6c11acdf0cd41ac2637c2d4c4e44a1e7210bf484b3b1d5beb40a76fdb89e8ad"
+  },
+  {
+    "file": "ccr-NOTICE",
+    "repository": "collective-capability-runtime",
+    "version": "1.8.0",
+    "commit": "1591e88e3b05f9b5fb06b2d0c749aad8bc0909be",
+    "path": "NOTICE",
+    "sha256": "67587fa558e99d446dc8bec74d2e8dbd123edac40989e0b4dacf29dd3c8a4c1b"
+  }
+]

@@ -1,0 +1,129 @@
+{
+  "$defs": {
+    "Cost": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "stage": {
+          "enum": [
+            "formation",
+            "verification",
+            "transfer",
+            "refresh",
+            "maintenance",
+            "use"
+          ],
+          "title": "Stage",
+          "type": "string"
+        },
+        "unit": {
+          "const": "work-unit",
+          "default": "work-unit",
+          "title": "Unit",
+          "type": "string"
+        },
+        "amount": {
+          "title": "Amount",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "stage",
+        "amount"
+      ],
+      "title": "Cost",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "oawm_normalize_v1",
+      "default": "oawm_normalize_v1",
+      "title": "Version",
+      "type": "string"
+    },
+    "tool": {
+      "const": "normalize-lines-v1",
+      "default": "normalize-lines-v1",
+      "title": "Tool",
+      "type": "string"
+    },
+    "implementation": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Implementation",
+      "type": "string"
+    },
+    "input": {
+      "maxLength": 4096,
+      "title": "Input",
+      "type": "string"
+    },
+    "output": {
+      "maxLength": 4096,
+      "title": "Output",
+      "type": "string"
+    },
+    "receiver": {
+      "pattern": "^[A-Za-z0-9_.:-]{1,120}$",
+      "title": "Receiver",
+      "type": "string"
+    },
+    "context_digest": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Context Digest",
+      "type": "string"
+    },
+    "time": {
+      "maximum": 2147483648,
+      "minimum": 0,
+      "title": "Time",
+      "type": "integer"
+    },
+    "split": {
+      "enum": [
+        "training",
+        "evaluation"
+      ],
+      "title": "Split",
+      "type": "string"
+    },
+    "complete": {
+      "default": true,
+      "title": "Complete",
+      "type": "boolean"
+    },
+    "outcome": {
+      "enum": [
+        "success",
+        "failure",
+        "unknown"
+      ],
+      "title": "Outcome",
+      "type": "string"
+    },
+    "cost": {
+      "$ref": "#/$defs/Cost"
+    }
+  },
+  "required": [
+    "implementation",
+    "input",
+    "output",
+    "receiver",
+    "context_digest",
+    "time",
+    "split",
+    "outcome",
+    "cost"
+  ],
+  "title": "Operation",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kadubon.github.io/oawm/qualified/v1/Operation.schema.json"
+}

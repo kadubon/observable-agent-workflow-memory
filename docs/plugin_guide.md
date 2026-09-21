@@ -86,3 +86,7 @@ Semantic checker templates live in
 
 LiteLLM is an optional adapter dependency. Core, storage, retrieval, checker, and
 mock-provider workflows do not require installing model SDKs.
+
+## 0.2.0b0 receiver profile
+
+ReceiverRuntime accepts explicit host Context registration and an existing AgentKernel. Qualified retrieval uses authoritative bounded local records rather than trusting retriever-returned lane labels. Native ALT/CCR imports are fixed optional paths; no plugin configuration is accepted from memory. See receiver-qualified-memory.md.
