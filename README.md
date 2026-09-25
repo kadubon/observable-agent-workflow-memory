@@ -1,110 +1,109 @@
 # Observable Agent Workflow Memory
 
-`observable-agent-workflow-memory` v0.2.0b0 beta is a local-first Python package and CLI for
-long-running agents that need memory they can rely on without a hidden
-meta-controller. It turns short-term observable traces into verified workflow
-memory.
+OAWM is a local-first workflow-memory verification kernel that turns observable
+traces into evidence-bound procedural memories and controls whether those memories
+are admissible for reuse under declared conditions. It provides procedural memory
+for AI agents, not certification of arbitrary factual truth.
 
-OAWM certifies evidence-bound procedural admissibility for memory reuse. It does
-not certify factual truth, model truthfulness, or real-world safety. A certified
-memory is allowed for reuse under declared evidence and checks; it is not
-globally true by definition.
+> Can this particular workflow memory still be reused by this receiver, for this
+> input, with these dependencies and this evidence?
 
-This project is a workflow-memory verification kernel. It is not a general agent
-framework and not a general-purpose memory database.
+## Status and scope
 
-```text
-observable events -> raw memory -> candidate -> verified shadow -> certified workflow
-```
+Current source and published GitHub prerelease: **0.2.0b0, Beta**, Python 3.11+,
+Apache-2.0. The [release](https://github.com/kadubon/observable-agent-workflow-memory/releases/tag/v0.2.0b0)
+was published on September 21, 2026; this documentation was source-checked on
+September 25, 2026. Legacy JSON schemas remain **1.1**; opt-in receiver records
+have separate version identifiers. These are not interchangeable version numbers.
 
-The repository exists to answer a narrow operational question:
-
-> Which memories may a long-running agent safely reuse as workflow capability?
-
-OAWM does not treat summaries, vector hits, or raw LLM outputs as durable
-capability. A memory becomes admissible only after it is bound to observable
-events, event digests, an evidence manifest, checker results, a promotion
-receipt, and an explicit promotion step.
+OAWM is not a general-purpose memory database, an agent framework, a universal
+semantic verifier, or a sandbox. It does not maximize memory volume or discover
+and execute arbitrary programs from natural-language traces. Retrievable memory
+is not execution authorization. Release checks do not establish improvement of
+arbitrary agents; no external empirical acceleration experiment is reported.
 
 ## What You Can Do
 
-- Append observable events from code or JSONL.
-- Build raw short-term memory automatically from those observations.
-- Propose candidate workflow memories from one run.
-- Verify candidates with deterministic, fail-closed checkers.
-- Promote passing candidates into reusable `WorkflowContract` records.
-- Retrieve only admissible certified memories by default.
-- Keep failed, contradicted, superseded, and tombstoned memories audit-visible.
-- Run with the mock provider immediately, or connect any LLM through an adapter.
-- Replace storage, retrieval, checkers, proposers, tools, and model providers.
+Use OAWM when a reusable procedure needs observable evidence, explicit promotion,
+and a lifecycle that can reject stale workflow memory. A script is often enough
+for a fixed operation; an ordinary store or RAG system may be enough for reference
+material. See [when to use OAWM](docs/when-to-use-oawm.md).
+
+- Observe events, propose workflow candidates, check evidence and explicitly promote.
+- Retain failed, contradicted, superseded and retired memories for audit.
+- Opt into exact receiver/input/dependency qualification and checked finite use.
+- Embed public ports for storage, retrieval, providers, checkers and tools.
 
 ## Why It Is Different
 
-- **No-meta / observable-only:** ordering is based on stored `obs_seq` and
-  `obs_time`, not on an unverifiable hidden evaluator.
-- **Version-bound memory:** every `MemoryRecord` has `memory_id`, `update_id`,
-  and `content_digest` references in read/use/verify/correct/promote telemetry.
-- **Workflow memory, not note memory:** long-term capability is represented as a
-  checked workflow contract, not a summary cache.
-- **Append-only receipts:** verification receipts and evidence manifests are
-  inserted as new records. A newer passing receipt cannot overwrite an older one.
-- **Action-bound external effects:** strict mode requires an `ActionIntent` and
-  a passing receipt bound to that exact action before external-effect tools run.
-- **Model independent:** `core` does not import LiteLLM, OpenAI SDKs, vector
-  databases, FastAPI, cloud SDKs, or hosted services.
-- **Forkable architecture:** ports and adapters keep third-party integrations
-  small and testable.
+Observable event order, version-bound evidence manifests and append-only receipts
+make the reuse decision inspectable. Model output may propose a candidate; writing
+“passed” cannot certify it. Domain-specific semantic assurance needs an appropriate
+checker. Generic digests establish bindings, not truth or source authentication.
+
+## Two profiles
+
+**Base profile:** observable events -> raw memory -> candidate -> verified shadow
+-> explicit promotion -> certified workflow. Verification and promotion are
+separate host/runtime-controlled operations; a human click is not universally
+required. Default admissible retrieval selects the certified lane.
+
+### Receiver-qualified reuse (opt-in)
+
+The receiver profile additionally binds host-declared contexts, exact inputs,
+dependencies, evidence and expiry. Retrieval reloads authoritative records before
+ranking. Exposure, gated execution, independent output checks and lifecycle
+feedback remain separate. Its finite execution language supports the explicitly
+registered `normalize-lines-v1` primitive: bounded text becomes sorted unique lines
+joined by LF. This is not arbitrary multi-step skill execution.
+
+| API | Meaning |
+| --- | --- |
+| `AgentKernel.run` | Legacy certified-memory context and USE telemetry; no independently checked procedure execution. |
+| `AgentKernel.run_qualified` | Receiver-qualified context exposure through a supplied receiver runtime. |
+| `ReceiverRuntime.use` | Separate strict local execution with exact action receipts, costs, output checking and reconciliation. |
+
+See [receiver contracts](docs/receiver-qualified-memory.md),
+[checked use and lifecycle](docs/memory-use-and-lifecycle.md), and
+[qualified retrieval vs execution](docs/wiki/Receiver-Qualified-Reuse.md).
+
+## Start here
+
+- **Reader:** [English Wiki](https://github.com/kadubon/observable-agent-workflow-memory/wiki),
+  [repository copy](docs/wiki/Home.md), and [when to use it](docs/when-to-use-oawm.md).
+- **Implementer:** [getting started](docs/wiki/Getting-Started.md),
+  [plugin guide](docs/plugin_guide.md), and [security model](docs/security_model.md).
+- **Agent or contract reader:** [schemas](schemas/), [core models](src/observable_agent_workflow_memory/core/models.py),
+  [receiver wire contracts](src/observable_agent_workflow_memory/qualified/wire.py),
+  [native contracts](docs/alt-interoperability.md), and [troubleshooting](docs/wiki/Troubleshooting.md).
 
 ## Ten-Minute Tutorial
 
-Install and run the deterministic path first:
+### Installation and offline orientation
 
-```powershell
-uv sync --extra dev
-uv run oawm init .oawm
+The documented distribution channel is the GitHub prerelease, not an assumed PyPI
+package. Download its wheel and
+[SHA256SUMS](https://github.com/kadubon/observable-agent-workflow-memory/releases/download/v0.2.0b0/SHA256SUMS),
+verify the wheel hash, then install into a virtual environment. Exact steps and a
+separate source-checkout path are in [Getting Started](docs/wiki/Getting-Started.md).
+Base installation needs no optional companion, API key, paid model, vector database
+or cloud account. Dependency acquisition may need a network; the base orientation
+uses the default mock provider offline after installation.
+
+From a disposable working directory with OAWM installed:
+
+```sh
+oawm --help
+oawm qualified resources
+oawm init .oawm
 ```
 
-Observe events:
-
-```powershell
-uv run oawm observe examples/minimal_litellm_agent/sample_events.jsonl --run-id demo
-```
-
-Propose, verify, promote, and search:
-
-```powershell
-uv run oawm propose --run-id demo --max-steps 4
-uv run oawm verify <candidate-id>
-uv run oawm promote <candidate-id>
-uv run oawm search "workflow" --mode admissible
-```
-
-Run with mock LLM memory context:
-
-```powershell
-uv run oawm run "Use the certified workflow memory."
-```
-
-Connect a real model through LiteLLM:
-
-```powershell
-uv sync --extra llm
-$env:OPENAI_API_KEY="..."
-uv run oawm run --model openai/gpt-4o-mini "Summarize the certified workflow state."
-```
-
-Retire or record contradiction without erasing audit history:
-
-```powershell
-uv run oawm retire <memory-id> --reason "obsolete contract"
-uv run oawm contradict <memory-id> "new observable claim" --reason "conflicting evidence"
-```
-
-Try the action-bound tool path without API keys:
-
-```powershell
-uv run python examples/action_bound_tool/run_demo.py
-```
+The first two commands inspect help/bundled resources. `init` writes local SQLite
+state. The Python example below also writes state, including retrieval telemetry.
+Commands here were **source-checked, not executed for this documentation update**.
+See the guide for a full candidate/verification/promotion path and optional demos.
+A successful command or empty retrieval report does not establish eligible memory
+or completed work.
 
 ## Python API
 
@@ -172,7 +171,7 @@ Memory lanes:
 - `raw`: short-term observable memory, never admissible by default.
 - `candidate`: proposed workflow memory.
 - `shadow`: verified but not promoted.
-- `certified`: admissible long-term workflow memory.
+- `certified`: base-profile long-term workflow memory; receiver eligibility is separate.
 - `superseded`: replaced by a newer certified memory, retained for audit.
 - `quarantine`: failed verification.
 - `contradiction`: conflicting memory preserved as its own lane.
@@ -242,48 +241,75 @@ configuration error.
 
 ## Security Assumptions
 
-- v0.1.0 beta is local-first, single-user, single-agent.
-- SQLite files are trusted local state; filesystem permissions are outside OAWM.
-- Strict profile is the default. External effects require action-bound receipts.
-- `warn` profile is experimental and is not a security mode in this beta.
-- Raw, candidate, and shadow memory may be poisoned and must not be treated as
-  safe context by default.
-- Semantic validity depends on domain-specific checker plugins.
-- Checkers validate evidence structure and deterministic bindings; they do not
-  prove global truth.
-- Model output can propose candidates, but cannot certify them by itself.
-- Public JSON Schemas are versioned at `1.1`; storage migrations are documented
-  in `migrations/`.
+### Base-profile assumptions
+
+- Local-first, single-user state is trusted; filesystem permissions remain external.
+- Strict action-bound checking is the supported security profile. `warn` is an
+  experimental compatibility option, not a security mode.
+- Raw/candidate/shadow material may be poisoned. Certified does not mean true.
+- Storage, configured checkers, permissions and execution boundaries remain trusted.
+- OAWM is not a sandbox; hosts own OS/network/secret isolation and tool authority.
+
+### Additional receiver-profile boundaries
+
+Named receivers are local policy subjects, not remote authentication, independent
+adoption, tenant isolation or distributed ordering. Host clocks and exact dependency
+bindings matter. Expiry, retirement, supersession, checked negatives and dependency
+withdrawal can block later reuse. Unresolved effects require host review; a timeout
+is not a checked negative or successful service. See [lifecycle](docs/memory-use-and-lifecycle.md).
 
 ## Limitations
 
-OAWM v0.1.0 beta is intentionally conservative:
+Generated != verified; verified != explicitly promoted; certified != receiver-qualified;
+retrieved != used; context exposure != checked service; qualified != authorized.
+Receipt integrity != source authentication, and deterministic replay != external truth.
+Historical success does not establish current eligibility. Copied artifacts are not
+new capability. Finite model results are not measured deployment gains, and passing
+tests are not universal correctness. APIs may change before a stable release.
 
-- it is not a proof of truth; it verifies stored evidence bindings and workflow
-  contracts, not global factual correctness;
-- it is not a sandbox; external tools still need OS, network, and secret
-  isolation;
-- it cannot guarantee that a model will follow retrieved certified memory;
-- the deterministic proposer is a baseline, not a domain expert;
-- it is local-first and single-user; there is no multi-agent consensus, cloud
-  sync, tenant isolation, web UI, MCP server, or distributed collector ordering;
-- receipts are deterministic evidence checks, not ZK or cryptographic proof
-  systems;
-- APIs and schemas may change before a stable non-beta release.
+OAWM cannot guarantee that a model follows retrieved memory. The deterministic
+proposer is a baseline, not a domain expert. There is no multi-agent consensus,
+cloud sync, tenant isolation, web UI, MCP server or distributed collector ordering.
+Receipts are deterministic evidence checks, not zero-knowledge or general
+cryptographic proof systems.
+
+## Ecosystem roles and interoperability
+
+The [integration guide](docs/wiki/Integrating-with-Existing-Agents.md) distinguishes
+verified native version pairs, extension points, partial exports and conceptual
+complements. OAWM's publication evidence covers **ALT 0.5.0** finite native
+qualification and **CCR 1.8.0** task-proposal parsing. A proposal is not admitted,
+leased or executed CCR work. VEK/CAIT sidecars remain partial; no native acceptance
+is claimed. Other projects' later releases do not expand this release's guarantees.
+See the authoritative [collective handoff](docs/collective-handoff.md) contract.
+
+## Evidence and documentation
+
+[Publication evidence](docs/publication-0.2.0b0.md) records historical September 21,
+2026 release qualification and public installed-artifact checks. This documentation
+update does not rerun them or create new empirical evidence.
+[Evidence and limitations](docs/wiki/Evidence-and-Limitations.md) separates mechanisms,
+finite demonstrations, source inspection and unsupported claims.
+
+- [Concepts and lifecycle](docs/wiki/Concepts-and-Lifecycle.md)
+- [Semantic checker guidance](docs/semantic_checkers.md)
+- [Theory mapping](docs/theory_mapping.md) and [theory sources](docs/theory_sources.md)
+- [English Collective Intelligence Index](https://kadubon.github.io/github.io/collective-intelligence-index.html)
+- [Japanese Collective Intelligence Index](https://kadubon.github.io/github.io/collective-intelligence-index.ja.html)
+- [Wiki source and maintenance](docs/wiki-maintenance.md)
 
 ## Commercial-Use Caveats
 
-The code is Apache-2.0 licensed and designed for commercial extension, but
-operators should add environment-specific controls before production deployment:
-
-- access control and secrets management;
-- backup and retention policy for append-only state;
-- stronger checker sets for regulated tools;
-- integration tests for custom adapters;
-- monitoring around external-effect tool execution;
-- a migration review process for schema changes.
+[Apache-2.0](LICENSE) permits commercial extension under its terms; this is not a
+production-readiness assurance. Hosts must address access controls, secrets,
+backups, retention, adapter validation, external-effect monitoring and migrations.
+See [SECURITY.md](SECURITY.md) for reporting security issues.
 
 ## Development Checks
+
+Contributions should use a branch and PR, preserve evidence and lifecycle boundaries,
+and satisfy applicable repository checks. For software development (not this
+documentation-only update), existing checks include:
 
 ```powershell
 uv run pytest
@@ -291,23 +317,6 @@ uv run ruff check .
 uv run mypy src
 ```
 
-See `docs/theory_mapping.md`, `docs/theory_sources.md`,
-`docs/security_model.md`, `docs/semantic_checkers.md`,
-`docs/plugin_guide.md`, and `docs/release_checklist.md` for design details.
-
-## Receiver-qualified reuse (opt-in)
-
-Version 0.2.0b0 adds a finite source-bound ALT 0.5.0 round trip, named-receiver
-retrieval connected to `AgentKernel.run_qualified`, gated local execution,
-independently checked outcomes, scoped lifecycle feedback and CCR 1.8.0 task
-proposals. Existing schema 1.1 and legacy APIs remain available. Context exposure
-is not procedure execution, and qualification is not authority.
-
-Run `oawm qualified --help` and see [the installed quickstart](docs/receiver-qualified-memory.md),
-[native contracts](docs/alt-interoperability.md), [lifecycle rules](docs/memory-use-and-lifecycle.md)
-and [publication evidence](docs/publication-0.2.0b0.md). Base OAWM requires no companion
-or LLM SDK; native examples require explicit installation of pinned GitHub wheels.
-GitHub prerelease assets are the requested channel; PyPI publication is not claimed.
-
-Background: [collective-intelligence research index](https://kadubon.github.io/github.io/collective-intelligence-index.ja.html).
-No external empirical acceleration experiment was performed.
+See the [release checklist](docs/release_checklist.md) for release work;
+documentation changes do not require or imply a new release. Wiki edits are maintained
+in [docs/wiki](docs/wiki/) and published to the separate Wiki history.
